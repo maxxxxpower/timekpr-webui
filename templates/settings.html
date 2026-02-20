@@ -184,6 +184,19 @@
                             <li>Ensure all remote systems use the same password for the timekpr-remote user</li>
                         </ul>
                     </div>
+
+                    <div style="margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--border-primary);">
+                        <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-3);">System Information</h4>
+                        <div style="font-size: var(--font-size-sm); color: var(--text-tertiary);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                                <span>Timezone:</span>
+                                <span style="color: var(--text-secondary); font-weight: 500;">{{ timezone }}</span>
+                            </div>
+                            <div style="font-size: var(--font-size-xs); color: var(--text-muted); margin-top: var(--space-2);">
+                                All times are displayed in {{ timezone }}. To change, set the TZ environment variable in docker-compose.yaml
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

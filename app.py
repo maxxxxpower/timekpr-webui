@@ -3,6 +3,7 @@ import os
 from datetime import datetime, date, timedelta
 import json
 import logging
+import pytz
 
 from src.database import db, ManagedUser, UserTimeUsage, Settings, UserWeeklySchedule, UserDailyTimeInterval
 from src.ssh_helper import SSHClient
@@ -13,6 +14,16 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
+
+# Get timezone from environment variable or default to UTC
+TIMEZONE_STR = os.environ.get('TZ', 'UTC')
+try:
+    LOCAL_TIMEZONE = pytz.timezone(TIMEZONE_STR)
+    logging.info(f"Using timezone: {TIMEZONE_STR}")
+except pytz.exceptions.UnknownTimeZoneError:
+    logging.warning(f"Unknown timezone '{TIMEZONE_STR}', falling back to UTC")
+    LOCAL_TIMEZONE = pytz.UTC
+    TIMEZONE_STR = 'UTC'
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -28,6 +39,27 @@ task_manager.init_app(app)
 
 # Admin username remains hardcoded
 ADMIN_USERNAME = 'admin'
+
+# Jinja2 filter to convert UTC datetime to local timezone
+@app.template_filter('localtime')
+def localtime_filter(dt):
+    """Convert UTC datetime to local timezone"""
+    if dt is None:
+        return None
+
+    # If datetime is naive (no timezone info), assume it's UTC
+    if dt.tzinfo is None:
+        dt = pytz.UTC.localize(dt)
+
+    # Convert to local timezone
+    local_dt = dt.astimezone(LOCAL_TIMEZONE)
+    return local_dt
+
+# Make timezone string available to templates
+@app.context_processor
+def inject_timezone():
+    """Inject timezone info into all templates"""
+    return {'timezone': TIMEZONE_STR}
 
 @app.route('/', methods=['GET', 'POST'])
 def login():

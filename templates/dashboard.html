@@ -145,7 +145,7 @@
                                     <div class="stat-label">Last Updated</div>
                                     <div class="stat-value">
                                         {% if user.last_checked %}
-                                            {{ user.last_checked.strftime('%H:%M') }}
+                                            {{ user.last_checked|localtime|strftime('%H:%M') }}
                                         {% else %}
                                             Never
                                         {% endif %}

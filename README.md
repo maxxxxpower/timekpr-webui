@@ -236,7 +236,38 @@ The responsive design works seamlessly on:
 
 ## 🔧 Advanced Configuration
 
+### Timezone Configuration
+
+By default, all times are displayed in UTC. To display times in your local timezone:
+
+1. **Edit `docker-compose.yaml`** and set the `TZ` environment variable:
+```yaml
+services:
+  web:
+    environment:
+      - TZ=America/New_York  # Replace with your timezone
+```
+
+2. **Restart the container:**
+```bash
+docker-compose down
+docker-compose up -d
+```
+
+**Common Timezones:**
+- `America/New_York` (Eastern Time)
+- `America/Chicago` (Central Time)
+- `America/Los_Angeles` (Pacific Time)
+- `Europe/London` (GMT/BST)
+- `Europe/Paris` (CET/CEST)
+- `Asia/Tokyo` (JST)
+
+See the [full list of timezones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for more options.
+
+The current timezone is displayed in **Settings** page.
+
 ### Environment Variables
+- `TZ`: Timezone for displaying times (default: UTC)
 - `FLASK_ENV`: Development mode (default: production)
 - Custom database paths and network settings available
 
@@ -249,7 +280,7 @@ services:
       - "8080:5000"  # Change port binding
     volumes:
       - timekpr_data:/app/instance  # Database persistence (named volume)
-      
+
 volumes:
   timekpr_data:  # Docker-managed persistent storage
 ```
