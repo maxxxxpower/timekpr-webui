@@ -161,10 +161,10 @@
                                                     </span>
                                                 {% endif %}
                                             </td>
-                                            <td style="padding: var(--space-4); color: var(--text-secondary); font-size: var(--font-size-xs);">{{ user.date_added|localtime|strftime('%Y-%m-%d %H:%M') }}</td>
+                                            <td style="padding: var(--space-4); color: var(--text-secondary); font-size: var(--font-size-xs);">{{ (user.date_added|localtime).strftime('%Y-%m-%d %H:%M') }}</td>
                                             <td style="padding: var(--space-4); color: var(--text-secondary); font-size: var(--font-size-xs);">
                                                 {% if user.last_checked %}
-                                                    {{ user.last_checked|localtime|strftime('%Y-%m-%d %H:%M') }}
+                                                    {{ (user.last_checked|localtime).strftime('%Y-%m-%d %H:%M') }}
                                                 {% else %}
                                                     <span style="color: var(--text-muted);">Never</span>
                                                 {% endif %}

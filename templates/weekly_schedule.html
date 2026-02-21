@@ -220,7 +220,7 @@
                                             <span>Last Modified:</span>
                                             <span>
                                                 {% if user.weekly_schedule.last_modified %}
-                                                    {{ user.weekly_schedule.last_modified|localtime|strftime('%Y-%m-%d %H:%M') }}
+                                                    {{ (user.weekly_schedule.last_modified|localtime).strftime('%Y-%m-%d %H:%M') }}
                                                 {% else %}
                                                     Never
                                                 {% endif %}
@@ -229,7 +229,7 @@
                                         {% if user.weekly_schedule.last_synced %}
                                             <div style="display: flex; justify-content: space-between;">
                                                 <span>Last Synced:</span>
-                                                <span>{{ user.weekly_schedule.last_synced|localtime|strftime('%Y-%m-%d %H:%M') }}</span>
+                                                <span>{{ (user.weekly_schedule.last_synced|localtime).strftime('%Y-%m-%d %H:%M') }}</span>
                                             </div>
                                         {% endif %}
                                     </div>
